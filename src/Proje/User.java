@@ -1,11 +1,14 @@
 package Proje;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
 	private String userName;
-	private String userID;
+	private int userID;
 	private int point;
 	private int level;
 	public List<Task> completedTasks = new ArrayList<>();
@@ -13,13 +16,34 @@ public class User {
 	private List<String> achievements;
 
 	
-	public User(String name,String userID) {
+	public User(String name,int userID) {
         this.userName = name;
         this.userID=userID;
         this.point = 0;
         this.level = 1;
         this.achievements = new ArrayList<>();
-    }
+        saveToDatabase(); // Kullanıcı oluşturulunca veritabanına kaydet
+        
+    } 
+        
+        public void saveToDatabase() {
+            String sql = "INSERT INTO users (username, userID, point, level) VALUES (?, ?, ?, ?)";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+                pstmt.setString(1, userName);
+                pstmt.setInt(2, userID);
+                pstmt.setInt(3, point);
+                pstmt.setInt(4, level);
+                pstmt.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        
+    } 
+      
+      
 	public void completeTask(Task task) {
 		task.completeTask();
         completedTasks.add(task);
@@ -57,7 +81,7 @@ public class User {
     public String getUserName() {
     	return userName;
     }
-    public String getUserID() {
+    public int getUserID() {
     	return userID;
     }
     public int getPoint() {
@@ -69,7 +93,7 @@ public class User {
     public void setUserName(String name) {
     	this.userName=name;
     }
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
     	this.userID=userID;
     }
     public void setPoint(int point) {
