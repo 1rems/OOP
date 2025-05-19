@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.root {
+    -fx-background-color: #f2f2f2;
+    -fx-padding: 15;
+    -fx-font-family: "Segoe UI";
+}
+
+.text-field {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 6;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 6 12;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 4;
+    -fx-font-size: 13px;
+}
