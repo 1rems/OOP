@@ -28,7 +28,7 @@ public class User {
         
         public void saveToDatabase() {
             String sql = "INSERT INTO users (username, userID, point, level) VALUES (?, ?, ?, ?)";
-            try (Connection conn = DatabaseConnection.getConnection();
+            try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
                 pstmt.setString(1, userName);
