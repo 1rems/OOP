@@ -1,18 +1,18 @@
-package QuestHero;
+package Proje;
 
 import java.time.LocalDate;
 
 public class Task {
 	private String title;
 	private LocalDate date;
-	//acıklama???
 	private int durationMinutes;
 	private boolean isCompleted;
 	private int points;
+	
 	public Task(String title, int durationMinutes, LocalDate date,int point) {
         this.title =title;
         this.durationMinutes = durationMinutes;
-        this.date = date;
+        this.setDate(date);
         this.points=point;
         this.isCompleted = false;
     }
@@ -48,4 +48,10 @@ public class Task {
     public void setIsCompleted(boolean isCompleted) {
     	this.isCompleted=isCompleted;
     }
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 }
