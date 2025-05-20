@@ -1,6 +1,7 @@
 package Proje;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,24 +30,28 @@ public class Task {
         isCompleted = true;
         updateTaskStatus();
     }
+
 	public void saveToDatabase(int userID) {
-	    String sql = "INSERT INTO tasks (title, durationMinutes, date, isCompleted, points, userID) VALUES (?, ?, ?, ?, ?, ?)";
+	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tasks.db")) {
+	        String sql = "INSERT INTO tasks (title, duration, date, point, isCompleted, createdTime, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, this.title);
+	        stmt.setInt(2, this.durationMinutes);
+	        stmt.setString(3, this.date.toString());
+	        stmt.setInt(4, this.points);
+	        stmt.setBoolean(5, this.isCompleted);
+	        stmt.setString(6, this.createdTime.toString());
+	        stmt.setInt(7, userID);
 
-	    try (Connection conn = DataBaseConnection.getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        stmt.executeUpdate();
+	        System.out.println("Görev başarıyla kaydedildi: " + this.title);
 
-	        pstmt.setString(1, title);
-	        pstmt.setInt(2, durationMinutes);
-	        pstmt.setString(3, date.toString());
-	        pstmt.setBoolean(4, isCompleted);
-	        pstmt.setInt(5, points);
-	        pstmt.setInt(6, userID); // Kullanıcı ID'sini ekliyoruz
-
-	        pstmt.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
+	    } catch (Exception e) {
+	        System.out.println("Görev kaydedilemedi: " + e.getMessage());
+	        e.printStackTrace(); // satır numarası dahil hata verir
 	    }
 	}
+
 
 	 public void updateTaskStatus() {
 	        String sql = "UPDATE tasks SET isCompleted = ? WHERE title = ?";
