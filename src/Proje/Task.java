@@ -32,28 +32,27 @@ public class Task {
     }
 
 	public void saveToDatabase(int userID) {
-	    try (Connection conn = DriverManager.getConnection("jdbc:sqlite:tasks.db")) {
-	        String sql = "INSERT INTO tasks (title, duration, date, point, isCompleted, createdTime, userID) VALUES (?, ?, ?, ?, ?, ?, ?)";
-	        PreparedStatement stmt = conn.prepareStatement(sql);
-	        stmt.setString(1, this.title);
-	        stmt.setInt(2, this.durationMinutes);
-	        stmt.setString(3, this.date.toString());
-	        stmt.setInt(4, this.points);
-	        stmt.setBoolean(5, this.isCompleted);
-	        stmt.setString(6, this.createdTime.toString());
-	        stmt.setInt(7, userID);
+	    String sql = "INSERT INTO tasks "
+	               + "(title, duration, date, point, isCompleted, createdTime, userID) "
+	               + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    try (Connection conn = DataBaseConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setString(1, title);
+	        stmt.setInt(2, durationMinutes);    // duration
+	        stmt.setString(3, date.toString());
+	        stmt.setInt(4, points);             // point
+	        stmt.setBoolean(5, isCompleted);
+	        stmt.setString(6, createdTime.toString());
+	        stmt.setInt(7, userID);             // userID
 
 	        stmt.executeUpdate();
-	        System.out.println("Görev başarıyla kaydedildi: " + this.title);
-
-	    } catch (Exception e) {
-	        System.out.println("Görev kaydedilemedi: " + e.getMessage());
-	        e.printStackTrace(); // satır numarası dahil hata verir
+	    } catch (SQLException e) {
+	        e.printStackTrace();
 	    }
 	}
 
-
-	 public void updateTaskStatus() {
+	public void updateTaskStatus() {
 	        String sql = "UPDATE tasks SET isCompleted = ? WHERE title = ?";
 	        try (Connection conn = DataBaseConnection.getConnection();
 	             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -64,35 +63,39 @@ public class Task {
 	            e.printStackTrace();
 	        }
 	    }
+	 
 	 public static List<Task> loadFromDatabase(int userID) {
 		    List<Task> tasks = new ArrayList<>();
+		    String sql = "SELECT title, duration, date, point, isCompleted, createdTime "
+		               + "FROM tasks WHERE userID = ?";
 
-		    String query = "SELECT title, durationMinutes, date, isCompleted, points FROM tasks WHERE user_id = ?";
-
-		    try (Connection conn = DataBaseConnection.getConnection();   
-		         PreparedStatement pstmt = conn.prepareStatement(query)) {
+		    try (Connection conn = DataBaseConnection.getConnection();
+		         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
 		        pstmt.setInt(1, userID);
-		        ResultSet rs = pstmt.executeQuery();
+		        try (ResultSet rs = pstmt.executeQuery()) {
+		            while (rs.next()) {
+		                String title    = rs.getString("title");
+		                int duration    = rs.getInt("duration");
+		                LocalDate date  = LocalDate.parse(rs.getString("date"));
+		                int point       = rs.getInt("point");
+		                boolean done    = rs.getBoolean("isCompleted");
+		                LocalDateTime ct= LocalDateTime.parse(rs.getString("createdTime"));
 
-		        while (rs.next()) {
-		            String title = rs.getString("title");
-		            int duration = rs.getInt("durationMinutes");
-		            LocalDate date = LocalDate.parse(rs.getString("date"));
-		            boolean isCompleted = rs.getBoolean("isCompleted");
-		            int points = rs.getInt("points");
-
-		            Task task = new Task(title, duration, date, points);
-		            task.setIsCompleted(isCompleted); // tamamlanma durumunu da ayarla
-		            tasks.add(task);
+		                Task task = new Task(title, duration, date, point);
+		                task.setIsCompleted(done);
+		                task.setCreatedTime(ct);
+		                tasks.add(task);
+		            }
 		        }
-
 		    } catch (SQLException e) {
-		        System.err.println("Görevler veritabanından yüklenemedi: " + e.getMessage());
+		        e.printStackTrace();
 		    }
-
 		    return tasks;
 		}
+
+
+
 
 	public String toString() {
 	    return title + " - " + durationMinutes + " dk - " + (isCompleted ? "Tamamlandı" : "Bekliyor");

@@ -43,7 +43,9 @@ public class Main extends Application {
     	            String name = nameField.getText().trim();
     	            int id = Integer.parseInt(idField.getText().trim());
 
-    	            currentUser = new User(name, id);
+    	           // currentUser = new User(name, id);
+    	            currentUser = User.loadFromDatabase(name, id);
+
     	            tasks.setAll(Task.loadFromDatabase(currentUser.getUserID()));
 
     	            Scene mainScene = createMainScene(primaryStage);

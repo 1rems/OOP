@@ -6,23 +6,20 @@ import java.sql.SQLException;
 
 public class DataBaseConnection {
     private static final String URL = "jdbc:sqlite:QuestHero.db"; 
-
     private static Connection connection = null;
 
-    // Bağlantı nesnesini döndüren method (singleton pattern benzeri)
     public static Connection getConnection() {
-        if (connection == null) {
-            try {
+        try {
+            if (connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(URL);
                 System.out.println("Veritabanı bağlantısı başarılı.");
-            } catch (SQLException e) {
-                System.out.println("Veritabanı bağlantısı başarısız: " + e.getMessage());
             }
+        } catch (SQLException e) {
+            System.out.println("Veritabanı bağlantısı başarısız: " + e.getMessage());
         }
         return connection;
     }
 
-    // Bağlantıyı kapatmak için method
     public static void closeConnection() {
         if (connection != null) {
             try {
@@ -35,5 +32,6 @@ public class DataBaseConnection {
         }
     }
 }
+
 
 

@@ -2,6 +2,7 @@ package Proje;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,38 @@ public class User {
 	public User(String name,int userID) {
         this.userName = name;
         this.userID=userID;
-        this.point = 0;
-        this.level = 1;
         this.achievements = new ArrayList<>();
-        saveToDatabase(); // Kullanıcı oluşturulunca veritabanına kaydet
         
     } 
+	public static User loadFromDatabase(String name, int userID) {
+	    // 1) DB’den o userID’ye ait satırı çek
+	    String sql = "SELECT username, point, level FROM users WHERE userID = ?";
+	    try (Connection conn = DataBaseConnection.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+	        ps.setInt(1, userID);
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            // A) Kayıt varsa: bu bilgileri al, yeni User nesnesini güncelle
+	            User user = new User(name, userID);
+	            user.setPoint( rs.getInt("point") );
+	            user.setLevel( rs.getInt("level") );
+	            return user;
+	        } else {
+	            // B) Kayıt yoksa: yeni kullanıcı, DB’ye ekle, puan/level 0/1
+	            User user = new User(name, userID);
+	            user.saveToDatabase();   // bunu sadece ilk kayıt için bırakmıştık
+	            return user;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        // Hata olursa bile bir User döndür
+	        return new User(name, userID);
+	    }
+	}
+
         
         public void saveToDatabase() {
             String sql = "INSERT INTO users (username, userID, point, level) VALUES (?, ?, ?, ?)";

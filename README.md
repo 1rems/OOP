@@ -1,2 +1,0 @@
-# OOP
-our_project
