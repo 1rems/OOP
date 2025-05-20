@@ -49,6 +49,19 @@ public class User {
         completedTasks.add(task);
         point +=task.getPoints();
         levelUp();
+        
+        String sql = "UPDATE users SET point = ?, level = ? WHERE userID = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, point);
+            pstmt.setInt(2, level);
+            pstmt.setInt(3, userID);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 	public void levelUp() {
 		if(point>=level*100) {
@@ -58,6 +71,19 @@ public class User {
     public void missTask(Task task) {
         missedTasks.add(task);
         point -=task.getPoints();
+        
+        String sql = "UPDATE users SET point = ?, level = ? WHERE userID = ?";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, point);
+            pstmt.setInt(2, level);
+            pstmt.setInt(3, userID);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public void deleteTask(Task task) {
         if (completedTasks.contains(task)) {

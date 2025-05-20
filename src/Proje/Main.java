@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -18,7 +19,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         currentUser = new User("İrem", 123);  // Sabit kullanıcı (giriş ekranı yoksa)
 
-        ObservableList<Task> tasks = FXCollections.observableArrayList();
+        List<Task> loadedTasks = Task.loadFromDatabase(currentUser.getUserID());
+        ObservableList<Task> tasks = FXCollections.observableArrayList(loadedTasks);
+
 
         // Görev alanı
         TextField taskTitleField = new TextField();
@@ -48,7 +51,9 @@ public class Main extends Application {
                 if (title.isEmpty() || date == null) throw new Exception();
 
                 Task task = new Task(title, duration, date, point);
+                task.saveToDatabase(currentUser.getUserID());
                 tasks.add(task);
+
 
                 taskTitleField.clear();
                 durationField.clear();
