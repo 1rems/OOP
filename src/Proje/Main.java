@@ -128,7 +128,7 @@ public class Main extends Application {
         layout.getChildren().addAll(taskTitleField, durationField, pointBox, datePicker, addButton, deleteButton, refreshButton,showLevelButton, userInfo, taskList);
 
         Scene scene = new Scene(layout, 400, 500);
-       // scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         
         primaryStage.setTitle("Görev Takip Uygulaması");
         primaryStage.setScene(scene);

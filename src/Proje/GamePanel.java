@@ -15,7 +15,7 @@ public class GamePanel extends AbstractMapPanel {
 		this.getChildren().clear();
 
 	    for (int i = 1; i <= 10; i++) {
-	        Circle node = new Circle(15);
+	        Circle node = new Circle(25);
 	        node.setFill(i <= user.getLevel() ? Color.LIGHTCORAL : Color.LIGHTPINK);
 
 	        Label number = new Label(String.valueOf(i));
@@ -24,8 +24,8 @@ public class GamePanel extends AbstractMapPanel {
 
 	        StackPane circleWithNumber = new StackPane();
 	        circleWithNumber.getChildren().addAll(node, number);
-	        circleWithNumber.setLayoutX(i * 60);
-	        circleWithNumber.setLayoutY(50);
+	        circleWithNumber.setLayoutX(i * 70);
+	        circleWithNumber.setLayoutY(65);
 
 	        this.getChildren().add(circleWithNumber);
 	    }
