@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Task {
 	private int durationMinutes;
 	private boolean isCompleted;
 	private int points;
+	private LocalDateTime createdTime;
 	
 	public Task(String title, int durationMinutes, LocalDate date,int point) {
         this.title =title;
@@ -21,6 +23,7 @@ public class Task {
         this.setDate(date);
         this.points=point;
         this.isCompleted = false;
+        this.createdTime = LocalDateTime.now();
     }
 	public void completeTask() {
         isCompleted = true;
@@ -120,5 +123,11 @@ public class Task {
 	}
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	public LocalDateTime getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(LocalDateTime createdTime) {
+		this.createdTime = createdTime;
 	}
 }
