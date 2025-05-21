@@ -3,24 +3,18 @@ package Proje;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
-public class Achievements implements Reward{
+public class Achievements{
 	private String achievementTitle;
+	private boolean achieved;
+    private LocalDate date;
 	
-	public String getAchievementTitle() {
-		return achievementTitle;
-	}
-	public void setAchievementTitle(String achievementTitle) {
-		this.achievementTitle = achievementTitle;
-	}
-	public Achievements(String achievementTitle) {
-		this.achievementTitle=achievementTitle;
-	}
-	public void getsReward(User user) {
-		user.addAchievements(achievementTitle);
-		System.out.println("Yeni başarım açtınız : "+getAchievementTitle());
-		saveToDatabase(user.getUserID());
-	}
+	public Achievements(String title, boolean achieved, LocalDate date) {
+        this.achievementTitle = title;
+        this.achieved = achieved;
+        this.date = date;
+    }
 	public void saveToDatabase(int userID) {
         String sql = "INSERT INTO achievements (userID, achievementTitle) VALUES (?, ?)";
 
@@ -35,4 +29,22 @@ public class Achievements implements Reward{
             e.printStackTrace();
         }
     }
+	public boolean isAchieved() {
+		return achieved;
+	}
+	public void setAchieved(boolean achieved) {
+		this.achieved = achieved;
+	}
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+	public String getAchievementTitle() {
+		return achievementTitle;
+	}
+	public void setAchievementTitle(String achievementTitle) {
+		this.achievementTitle = achievementTitle;
+	}
 }
