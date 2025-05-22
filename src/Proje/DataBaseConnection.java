@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DataBaseConnection {
+public class DataBaseConnection {  //Veri tabanı bağlantısı
     private static final String URL = "jdbc:sqlite:QuestHero.db"; 
     private static Connection connection = null;
 
