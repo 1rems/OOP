@@ -23,6 +23,9 @@ public class Main extends Application {
 	private User currentUser;
     private ObservableList<Task> tasks = FXCollections.observableArrayList();
     private ObservableList<Task> missedTasks = FXCollections.observableArrayList();
+    private SoundPlayer soundPlayer = new SoundClass();
+
+    
 
     @Override
     public void start(Stage primaryStage) {
@@ -33,13 +36,16 @@ public class Main extends Application {
 
         TextField idField = new TextField();
         idField.setPromptText("Kullanıcı ID");
-
+        
+        //giriş yapmak için buton
         Button loginButton = new Button("Giriş Yap");
 
         VBox loginLayout = new VBox(10, nameField, idField, loginButton);
         Scene loginScene = new Scene(loginLayout, 400, 300);
+        //giriş ekranı için css
         loginScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm()); 
-
+        
+        //exception handling ile giriş kontrolü
         loginButton.setOnAction(e -> {
             try {
                 String name = nameField.getText().trim();
@@ -62,7 +68,7 @@ public class Main extends Application {
     }
 
     private Scene createMainScene(Stage stage) {
-
+    	//ANASAYFA
         tasks.setAll(Task.loadFromDatabase(currentUser.getUserID()));
 
         // Görev alanı
@@ -81,10 +87,10 @@ public class Main extends Application {
 
         ListView<Task> taskList = new ListView<>(tasks);
 
-        // Görev Ekle
+        // Görev Ekleme butonu
         Button addButton = new Button("Görev Ekle");
         addButton.setOnAction(e -> {
-            try {
+            try {  //exception handling ile görev bilgileri kontrolü
                 String title = taskTitleField.getText().trim();
                 int duration = Integer.parseInt(durationField.getText().trim());
                 int point = pointBox.getValue();
@@ -123,6 +129,8 @@ public class Main extends Application {
                         currentUser.completeTask(selectedTask);
                         selectedTask.setIsCompleted(true);
                         taskList.refresh();
+                        
+                        soundPlayer.playSound("/sound.mp3");
                     }
                 }
             });
@@ -134,7 +142,7 @@ public class Main extends Application {
         Button deleteButton = new Button("Görevi Sil");
         deleteButton.setOnAction(e -> {
             Task selected = taskList.getSelectionModel().getSelectedItem();
-            if (selected != null) {
+            if (selected != null) { //görev silmek için gereklilikler kontrolü
                 currentUser.deleteTask(selected);
                 tasks.remove(selected);
             }
@@ -152,7 +160,7 @@ public class Main extends Application {
         showLevelButton.setOnAction(e -> {
             Stage levelStage = new Stage();
             GamePanel gamePanel = new GamePanel(currentUser);
-            Scene levelScene = new Scene(gamePanel, 700, 200);
+            Scene levelScene = new Scene(gamePanel, 830, 200);
             levelStage.setTitle("Seviye İlerlemesi");
             levelStage.setScene(levelScene);
             levelStage.show();
@@ -167,13 +175,15 @@ public class Main extends Application {
                 refreshButton, showLevelButton, showAchievementsButton, userInfo, taskList);
 
         Scene scene = new Scene(layout, 400, 500);
+        //anasayfa için css
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
         stage.setTitle("QuestHero");
         startMissedTaskChecker();
         return scene;
     }
-
+    
+    //BAŞARIMLAR
     private void showAchievementsWindow() {
         Stage stage = new Stage();
         VBox achievementsBox = new VBox(10);
@@ -195,7 +205,8 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
+    
+    //multithreading kullanarak kaçıraln görev takibi
     private void startMissedTaskChecker() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
@@ -235,7 +246,7 @@ public class Main extends Application {
         this.missedTasks = missedTasks;
     }
     	
-    	}
+}
     	
     	
     	

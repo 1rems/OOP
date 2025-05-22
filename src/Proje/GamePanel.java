@@ -12,6 +12,9 @@ public class GamePanel extends AbstractMapPanel {
         super(user);
         drawMap();
     }
+	 
+	
+	
 	@Override
 	public void drawMap() {
 		this.getChildren().clear();
