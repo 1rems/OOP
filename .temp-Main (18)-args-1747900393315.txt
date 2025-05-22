@@ -1,0 +1,14 @@
+--module-path
+"C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib"
+--add-modules
+javafx.controls,javafx.fxml
+--enable-native-access=ALL-UNNAMED--enable-native-access=ALL-UNNAMED
+-Dfile.encoding=UTF-8
+-Dstdout.encoding=UTF-8
+-Dstderr.encoding=UTF-8
+-p
+"C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.fxml.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.controls.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.base.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.graphics.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.media.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.swing.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx.web.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\javafx-swt.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jdk.jsobject.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jfx.incubator.input.jar;C:\\Users\\Ayþegül\\Downloads\\openjfx-24.0.1_windows-x64_bin-sdk\\javafx-sdk-24.0.1\\lib\\jfx.incubator.richtext.jar;C:\\Users\\Ayþegül\\Downloads\\sqlite-jdbc-3.49.1.0.jar"
+-classpath
+"C:\\Users\\Ayþegül\\git\\OOP\\bin"
+-XX:+ShowCodeDetailsInExceptionMessages
+Proje.Main

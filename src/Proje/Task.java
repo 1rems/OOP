@@ -26,12 +26,13 @@ public class Task {
         this.isCompleted = false;
         this.createdTime = LocalDateTime.now();
     }
-	public void completeTask() {
+
+	public void completeTask() {  //Görev tamamlama
         isCompleted = true;
         updateTaskStatus();
     }
 
-	public void saveToDatabase(int userID) {
+	public void saveToDatabase(int userID) {  //Veri tabanı bağlantısı
 	    String sql = "INSERT INTO tasks "
 	               + "(title, duration, date, point, isCompleted, createdTime, userID) "
 	               + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -52,7 +53,7 @@ public class Task {
 	    }
 	}
 
-	public void updateTaskStatus() {
+	public void updateTaskStatus() {  //Güncelleme
 	        String sql = "UPDATE tasks SET isCompleted = ? WHERE title = ?";
 	        try (Connection conn = DataBaseConnection.getConnection();
 	             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -63,8 +64,8 @@ public class Task {
 	            e.printStackTrace();
 	        }
 	    }
-	 
-	 public static List<Task> loadFromDatabase(int userID) {
+
+	 public static List<Task> loadFromDatabase(int userID) {  //Veri tabanından bilgi çekme
 		    List<Task> tasks = new ArrayList<>();
 		    String sql = "SELECT title, duration, date, point, isCompleted, createdTime "
 		               + "FROM tasks WHERE userID = ?";
