@@ -37,7 +37,8 @@ public class Main extends Application {
         Button loginButton = new Button("Giriş Yap");
 
         VBox loginLayout = new VBox(10, nameField, idField, loginButton);
-        Scene loginScene = new Scene(loginLayout, 300, 200);
+        Scene loginScene = new Scene(loginLayout, 400, 300);
+        loginScene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm()); 
 
         loginButton.setOnAction(e -> {
             try {
@@ -56,7 +57,7 @@ public class Main extends Application {
         });
 
         primaryStage.setScene(loginScene);
-        primaryStage.setTitle("Giriş Yap");
+        primaryStage.setTitle("Giriş Ekranı");
         primaryStage.show();
     }
 
@@ -168,7 +169,7 @@ public class Main extends Application {
         Scene scene = new Scene(layout, 400, 500);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        stage.setTitle("Görev Takip Uygulaması");
+        stage.setTitle("QuestHero");
         startMissedTaskChecker();
         return scene;
     }
