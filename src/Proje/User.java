@@ -23,8 +23,7 @@ public class User {
         this.achievements = new ArrayList<>();
         
     } 
-
-	public static User loadFromDatabase(String name, int userID) {  //Veri tabanından bilgi çekme
+	public static User loadFromDatabase(String name, int userID) {
 	    // 1) DB’den o userID’ye ait satırı çek
 	    String sql = "SELECT username, point, level FROM users WHERE userID = ?";
 	    try (Connection conn = DataBaseConnection.getConnection();
@@ -53,8 +52,8 @@ public class User {
 	    }
 	}
 
-
-        public void saveToDatabase() {  //Veri tabanına kaydetme
+        
+        public void saveToDatabase() {
             String sql = "INSERT INTO users (username, userID, point, level) VALUES (?, ?, ?, ?)";
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -71,8 +70,8 @@ public class User {
         
     } 
       
-
-	public void completeTask(Task task) {  //Görev tamamlama , puan kazanma/seviye atlama ve veri tabanı bağlantısı
+      
+	public void completeTask(Task task) {
 		task.completeTask();
         completedTasks.add(task);
         point +=task.getPoints();
@@ -91,14 +90,12 @@ public class User {
             e.printStackTrace();
         }
     }
-
-	public void levelUp() {  //Seviye atlama
+	public void levelUp() {
 		if(point>=level*100) {
 			level++;
 		}
 	}
-
-    public void missTask(Task task) {  //Görev kaçırma
+    public void missTask(Task task) {
         missedTasks.add(task);
         point -=task.getPoints();
         
@@ -115,8 +112,7 @@ public class User {
             e.printStackTrace();
         }
     }
-
-    public void deleteTask(Task task) {  //Görev silme
+    public void deleteTask(Task task) {
         if (completedTasks.contains(task)) {
             completedTasks.remove(task);
         } 
@@ -127,8 +123,7 @@ public class User {
             System.out.println("Görev bulunamadı.");
         }
     }
-
-    public void addAchievements(String achievement) {  //Başarı ekleme
+    public void addAchievements(String achievement) {
         achievements.add(achievement);
     }
     

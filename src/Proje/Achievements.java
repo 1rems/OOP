@@ -5,20 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class Achievements{  //"Başarımlar"ın backend kısmı ve veri tabanı ile bağlantısı
-	
-
+public class Achievements{
 	private String achievementTitle;
 	private boolean achieved;
     private LocalDate date;
-  
+	
 	public Achievements(String title, boolean achieved, LocalDate date) {
         this.achievementTitle = title;
         this.achieved = achieved;
         this.date = date;
     }
-
-	public void saveToDatabase(int userID) {  //Veri Tabanı bağlantısı
+	public void saveToDatabase(int userID) {
         String sql = "INSERT INTO achievements (userID, achievementTitle) VALUES (?, ?)";
 
         try (Connection conn = DataBaseConnection.getConnection();
