@@ -23,7 +23,8 @@ public class User {
         this.achievements = new ArrayList<>();
         
     } 
-	public static User loadFromDatabase(String name, int userID) {
+
+	public static User loadFromDatabase(String name, int userID) {  //Veri tabanından bilgi çekme
 	    // 1) DB’den o userID’ye ait satırı çek
 	    String sql = "SELECT username, point, level FROM users WHERE userID = ?";
 	    try (Connection conn = DataBaseConnection.getConnection();
@@ -52,8 +53,8 @@ public class User {
 	    }
 	}
 
-        
-        public void saveToDatabase() {
+
+        public void saveToDatabase() {  //Veri tabanına kaydetme
             String sql = "INSERT INTO users (username, userID, point, level) VALUES (?, ?, ?, ?)";
             try (Connection conn = DataBaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -70,8 +71,8 @@ public class User {
         
     } 
       
-      
-	public void completeTask(Task task) {
+
+	public void completeTask(Task task) {  //Görev tamamlama , puan kazanma/seviye atlama ve veri tabanı bağlantısı
 		task.completeTask();
         completedTasks.add(task);
         point +=task.getPoints();
@@ -90,12 +91,14 @@ public class User {
             e.printStackTrace();
         }
     }
-	public void levelUp() {
+
+	public void levelUp() {  //Seviye atlama
 		if(point>=level*100) {
 			level++;
 		}
 	}
-    public void missTask(Task task) {
+
+    public void missTask(Task task) {  //Görev kaçırma
         missedTasks.add(task);
         point -=task.getPoints();
         
@@ -112,7 +115,8 @@ public class User {
             e.printStackTrace();
         }
     }
-    public void deleteTask(Task task) {
+
+    public void deleteTask(Task task) {  //Görev silme
         if (completedTasks.contains(task)) {
             completedTasks.remove(task);
         } 
@@ -123,7 +127,8 @@ public class User {
             System.out.println("Görev bulunamadı.");
         }
     }
-    public void addAchievements(String achievement) {
+
+    public void addAchievements(String achievement) {  //Başarı ekleme
         achievements.add(achievement);
     }
     
